@@ -1,6 +1,5 @@
 from django.db import models
-from ..projects.models import Projects
-
+from projects.models import Projects
 # Create your models here.
 
 class Tasks(models.Model):

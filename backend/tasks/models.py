@@ -7,3 +7,6 @@ class Tasks(models.Model):
     description = models.CharField(max_length=200)
     status = models.BooleanField(default=False)
     project = models.ForeignKey(Projects,default=None,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name

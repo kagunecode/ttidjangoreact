@@ -7,5 +7,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('tasks.urls')),
     path('', include('projects.urls')),
-    path('docs/', include_docs_urls(title='Task Manager API'))
+    path('docs/', include_docs_urls(title='Task Manager API')),
+    path('api/', include('user.urls'))
 ]

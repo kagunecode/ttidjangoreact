@@ -1,9 +1,11 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.authentication import get_authorization_header
 from .serializers import UserSerializer
 from .models import User
 import jwt, datetime
+from .authentication import create_access_token, create_refresh_token, decode_access_token, decode_refresh_token
 
 # Create your views here.
 class RegisterView(APIView):
@@ -21,45 +23,39 @@ class LoginView(APIView):
         user = User.objects.filter(email=email).first()
 
         if user is None:
-            raise AuthenticationFailed('User not found!')
+            raise AuthenticationFailed('Invalid credentials')
         
         if not user.check_password(password):
-            raise AuthenticationFailed('Incorrect password!')
+            raise AuthenticationFailed('Invalid credentials')
         
-        payload = {
-            'id': user.id,
-            'exp': datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(minutes=60),
-            'iat': datetime.datetime.now(datetime.timezone.utc)
-        }
-
-        token = jwt.encode(payload, 'secret', algorithm='HS256')
+        access_token = create_access_token(user.id)
+        refresh_token = create_refresh_token(user.id)
 
         response = Response()
-
-        response.set_cookie(key='jwt', value=token, httponly=True)
-
-        response.data = { 'jwt': token }
-        
+        response.set_cookie(key='refreshToken', value=refresh_token, httponly=True)
+        response.data = {
+            'token': access_token
+        }      
         
         return response
 
 
 class UserView(APIView):
     def get(self, request):
-        token = request.COOKIES.get('jwt')
+        auth = get_authorization_header(request).split()
 
-        if not token:
-            raise AuthenticationFailed('No token found')
-        
-        try:
-            payload = jwt.decode(token, 'secret', algorithms='HS256')
-        except: 
-            raise AuthenticationFailed('Not logged in')
-        
-        user = User.objects.filter(id=payload['id']).first()
-        serializer = UserSerializer(user)
+        if auth and len(auth) == 2:
+            token = auth[1].decode('utf-8')
+            id = decode_access_token(token)
 
-        return Response(serializer.data)
+            user = User.objects.filter(pk=id).first()
+            return Response(UserSerializer(user).data)
+        
+        raise AuthenticationFailed('User not authenticated')
+    
+class RefreshView(APIView):
+    def post(self, request):
+        pass
     
 class LogoutView(APIView):
     def post(self, request):

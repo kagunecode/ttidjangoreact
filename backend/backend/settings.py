@@ -39,11 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'coreapi',
     'rest_framework',
-    'rest_framework.authtoken',
     'corsheaders',
     'projects.apps.ProjectsConfig',
     'tasks.apps.TasksConfig',
-    'auth.apps.AuthConfig'
+    'user.apps.UserConfig',
 ]
 
 MIDDLEWARE = [
@@ -139,3 +138,5 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = ["http://127.0.0.1:8000", "http://127.0.0.1:5173", "http://localhost:5173"]
+
+AUTH_USER_MODEL = 'user.User'

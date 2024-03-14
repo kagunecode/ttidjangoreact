@@ -1,16 +1,18 @@
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export function SignUp() {
   const { register, handleSubmit } = useForm();
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    await fetch("http://127.0.0.1:8000/api/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
+    await axios.post("http://127.0.0.1:8000/api/register", {
+      name: data.name,
+      email: data.email,
+      password: data.password,
     });
+    navigate("/login");
   };
   return (
     <section className="h-full w-full flex items-center justify-center">

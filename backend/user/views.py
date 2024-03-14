@@ -55,12 +55,17 @@ class UserView(APIView):
     
 class RefreshView(APIView):
     def post(self, request):
-        pass
+        refresh_token = request.COOKIES.get('refreshToken')
+        id = decode_refresh_token(refresh_token)
+        access_token = create_access_token(id)
+        return Response({
+            'token': access_token
+        })
     
 class LogoutView(APIView):
-    def post(self, request):
+    def post(self, _):
         response = Response()
-        response.delete_cookie('jwt')
+        response.delete_cookie(key='refreshToken')
         response.data = {
             'message': 'Success'
         }

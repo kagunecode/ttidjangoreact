@@ -1,16 +1,7 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useStore } from "../store";
 
 export function Home() {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const getData = async () => {
-      const { data } = await axios.get("http://127.0.0.1:8000/api/user");
-      setData(data);
-    };
-
-    getData();
-  }, []);
-  return <h1>{data.name}</h1>;
+  const tokenData = useStore((state) => state.tokenData);
+  console.log(tokenData);
+  return <h1>{tokenData.name}</h1>;
 }

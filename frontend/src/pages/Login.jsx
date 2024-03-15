@@ -1,22 +1,25 @@
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import { useStore } from "../store";
 
 export function Login() {
   const { register, handleSubmit } = useForm();
+  const setTokenData = useStore((state) => state.setTokenData);
   const navigate = useNavigate();
 
   const onSubmit = async (formData) => {
-    const { data } = await axios.post(
-      "http://127.0.0.1:8000/api/login",
-      {
-        email: formData.email,
-        password: formData.password,
-      },
-      { withCredentials: true }
-    );
-    axios.defaults.headers.common["Authorization"] = `Bearer ${data["token"]}`;
-    navigate("/");
+    const response = await axios.post("http://127.0.0.1:8000/api/token", {
+      email: formData.email,
+      password: formData.password,
+    });
+    if (response.status === 200) {
+      let data = jwtDecode(response.data.access);
+      setTokenData(data);
+      navigate("/");
+    }
+    console.log(response);
   };
   return (
     <section className="h-full w-full flex items-center justify-center">

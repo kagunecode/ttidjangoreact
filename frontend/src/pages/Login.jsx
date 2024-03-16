@@ -6,7 +6,10 @@ import { useStore } from "../store";
 
 export function Login() {
   const { register, handleSubmit } = useForm();
-  const setTokenData = useStore((state) => state.setTokenData);
+  const [setTokenData, setLocalToken] = useStore((state) => [
+    state.setTokenData,
+    state.setLocalToken,
+  ]);
   const navigate = useNavigate();
 
   const onSubmit = async (formData) => {
@@ -17,6 +20,8 @@ export function Login() {
     if (response.status === 200) {
       let data = jwtDecode(response.data.access);
       setTokenData(data);
+      setLocalToken(response.data);
+      localStorage.setItem("authTokens", JSON.stringify(response.data));
       navigate("/");
     }
     console.log(response);

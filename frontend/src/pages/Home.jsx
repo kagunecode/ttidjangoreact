@@ -1,24 +1,30 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useStore } from "../store";
-import axios from "axios";
+import { instance } from "../utils/axiosInstance";
+
+// TODO: Reset headers since a long exp token will persist until reload or until the time has passed
 
 export function Home() {
-  const [projects, setProjects] = useState([]);
+  const [user, setUserData] = useStore((state) => [
+    state.userData,
+    state.setUserData,
+  ]);
   const [tokenData, localToken] = useStore((state) => [
     state.tokenData,
     state.localToken,
   ]);
 
   useEffect(() => {
-    (async () => {
-      const response = await axios.get("http://127.0.0.1:8000/projects/", {
-        headers: { Authorization: `Bearer ${localToken.access}` },
-      });
-      setProjects(response.data);
-    })();
+    getUserData();
   }, []);
 
-  const projectRender = projects.map((project) => (
+  const getUserData = async () => {
+    let response = await instance.get("projects/");
+    console.log(response);
+    setUserData(response.data);
+  };
+
+  const projectRender = user.map((project) => (
     <h1 key={project.id} style={{ background: project.colour }}>
       {project.name}
     </h1>

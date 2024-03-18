@@ -5,11 +5,9 @@ import App from "./App.jsx";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <Router>
-      <Routes>
-        <Route path="*" Component={App} />
-      </Routes>
-    </Router>
-  </React.StrictMode>
+  <Router>
+    <Routes>
+      <Route path="*" Component={App} />
+    </Routes>
+  </Router>
 );

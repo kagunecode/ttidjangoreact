@@ -1,8 +1,8 @@
-from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes, api_view
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework import status
 from .serializers import ProjectsSerializer
 from .models import Projects
 
@@ -13,9 +13,24 @@ from .models import Projects
 def getProjects(request):
     user, _ = JWTAuthentication().authenticate(request)
     email = user.email
-    projects = Projects.objects.filter(user__email=email)
-    serializer = ProjectsSerializer(projects, many=True)
-    return Response(serializer.data)
+    try:
+        projects = Projects.objects.filter(user__email=email)
+        serializer = ProjectsSerializer(projects, many=True)
+        return Response(serializer.data)
+    except Projects.DoesNotExist:
+        return Response({'message': 'No projects found. Check user.'}, status=status.HTTP_404_NOT_FOUND)
+    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getProject(request, project_id):
+    user, _ = JWTAuthentication().authenticate(request)
+    email = user.email
+    try:
+        project = Projects.objects.get(id=project_id,user__email=email)
+        serializer = ProjectsSerializer(project)
+        return Response(serializer.data)
+    except Projects.DoesNotExist:
+        return Response({'message': 'No project found.'}, status=status.HTTP_404_NOT_FOUND)
     
 
 

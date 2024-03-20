@@ -32,7 +32,13 @@ def getProject(request, project_id):
     except Projects.DoesNotExist:
         return Response({'message': 'No project found.'}, status=status.HTTP_404_NOT_FOUND)
     
-
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def createProject(request):
+    serializer = ProjectsSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 # @permission_classes([IsAuthenticated])

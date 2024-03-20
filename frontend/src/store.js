@@ -9,7 +9,12 @@ export const useStore = create((set) => ({
   localToken: localStorage.getItem("authTokens")
     ? JSON.parse(localStorage.getItem("authTokens"))
     : null,
+  projectModal: false,
+  refreshProjects: true,
   setTokenData: (data) => set(() => ({ tokenData: data })),
   setLocalToken: (data) => set(() => ({ localToken: data })),
   setUserData: (data) => set(() => ({ userData: data })),
+  setProjectModal: () =>
+    set((state) => ({ projectModal: !state.projectModal })),
+  setRefreshProjects: (value) => set(() => ({ refreshProjects: value })),
 }));

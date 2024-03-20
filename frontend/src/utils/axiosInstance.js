@@ -20,6 +20,7 @@ instance.interceptors.request.use(async (req) => {
     req.headers.Authorization = `Bearer ${authTokens?.access}`;
   }
   if (authTokens) {
+    req.headers.Authorization = `Bearer ${authTokens?.access}`;
     console.info("Token was found, sending last request");
     const user = jwtDecode(authTokens.access);
     const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
@@ -40,5 +41,7 @@ instance.interceptors.request.use(async (req) => {
     }
     return req;
   }
+  localStorage.removeItem("authTokens");
+  window.location.href = "/";
   return req;
 });

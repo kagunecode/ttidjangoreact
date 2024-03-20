@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { IconTodoers } from "../icons/IconTodoers";
 
 export function Welcome() {
@@ -11,9 +12,12 @@ export function Welcome() {
         Create task lists easily and keep your time and schedule organized
       </p>
       <div className="flex mt-4 gap-10 text-4xl">
-        <button className="text-orange-400 hover:text-orange-800 duration-150">
+        <Link
+          to="/login"
+          className="text-orange-400 hover:text-orange-800 duration-150"
+        >
           Start Now
-        </button>
+        </Link>
         <a href="https://github.com/kagunecode/ttidjangoreact" target="_blank">
           GitHub Repo
         </a>

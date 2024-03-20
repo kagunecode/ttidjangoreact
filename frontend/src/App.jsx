@@ -10,9 +10,9 @@ export default function App() {
     <div className="flex flex-col h-full w-full">
       <Routes>
         <Route path="/" Component={Welcome} index />
-        <Route path="/signup" Component={SignUp} />
+        <Route path="/register" Component={SignUp} />
         <Route path="/login" Component={Login} />
-        <Route path="/app" Component={Home} />
+        <Route path="/app/*" Component={Home} />
       </Routes>
     </div>
   );

@@ -8,5 +8,6 @@ from projects import views
 urlpatterns = [
     # path('', include(router.urls)),
     path('projects/', views.getProjects),
-    path('projects/<int:project_id>/', views.getProject)
+    path('projects/<int:project_id>/', views.getProject),
+    path('projects/create', views.createProject)
 ]

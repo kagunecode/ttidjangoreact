@@ -1,19 +1,22 @@
-import { useEffect } from "react";
-import { useStore } from "../store";
-import { instance } from "../utils/axiosInstance";
 import { Sidebar } from "../components/Sidebar";
 import { Navbar } from "../components/Nabvar";
+import { Routes, Route } from "react-router-dom";
+import { Project } from "../components/Project";
+import { AddProject } from "../components/AddProject";
 
 // TODO: Reset headers since a long exp token will persist until reload or until the time has passed
 
 export function Home() {
   return (
-    <div className="h-full flex">
+    <div className="h-full relative flex">
       <Sidebar />
-      <div className="w-full">
+      <div className="w-full flex flex-col">
         <Navbar />
-        <h1 className="text-7xl">Tasks</h1>
+        <Routes>
+          <Route path="project/:id" Component={Project} />
+        </Routes>
       </div>
+      <AddProject />
     </div>
   );
 }

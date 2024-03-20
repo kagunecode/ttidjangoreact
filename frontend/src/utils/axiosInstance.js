@@ -2,13 +2,10 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import dayjs from "dayjs";
 
-let authTokens = localStorage.getItem("authTokens")
-  ? JSON.parse(localStorage.getItem("authTokens"))
-  : null;
+let authTokens = null;
 
 export const instance = axios.create({
   baseURL: "http://127.0.0.1:8000/",
-  headers: { Authorization: `Bearer ${authTokens?.access}` },
 });
 
 instance.interceptors.request.use(async (req) => {
@@ -33,7 +30,9 @@ instance.interceptors.request.use(async (req) => {
         }
       );
       localStorage.setItem("authTokens", JSON.stringify(response.data));
+      authTokens = response.data;
       req.headers.Authorization = `Bearer ${response.data.access}`;
+      console.log("Token refreshed!");
     } catch (error) {
       console.error("Token refresh failed:", error);
       localStorage.removeItem("authTokens");

@@ -4,6 +4,7 @@ import { instance } from "../utils/axiosInstance";
 import { Link } from "react-router-dom";
 
 import { IconPlus } from "../icons/IconPlus";
+import { IconLogout } from "../icons/IconLogout";
 
 export function Sidebar() {
   const [projects, setProjects] = useState([]);
@@ -46,19 +47,20 @@ export function Sidebar() {
     <nav className="bg-zinc-50 p-4 min-w-[280px]">
       <div className="flex items-center justify-between">
         <h1 className="font-bold text-2xl">Hello {tokenData?.name}</h1>
-        {tokenData && (
-          <button
-            onClick={handleLogout}
-            className="hover:text-red-400 duration-150"
-          >
-            Logout
-          </button>
-        )}
+        <button
+          onClick={handleLogout}
+          className="hover:text-red-400 duration-150"
+        >
+          <IconLogout />
+        </button>
       </div>
       <div>
         <div className="flex justify-between items-center text-gray-500 my-2">
           <h2>Your projects</h2>
-          <div className="cursor-pointer" onClick={() => setProjectModal(true)}>
+          <div
+            className="cursor-pointer hover:text-orange-400 duration-150"
+            onClick={() => setProjectModal(true)}
+          >
             <IconPlus />
           </div>
         </div>

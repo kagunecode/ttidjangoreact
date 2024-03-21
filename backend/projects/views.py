@@ -1,50 +1,52 @@
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import permission_classes, api_view
-from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.views import APIView
 from rest_framework import status
 from .serializers import ProjectsSerializer
 from .models import Projects
 
-# Create your views here.
+class ProjectsView(APIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ProjectsSerializer
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def getProjects(request):
-    user, _ = JWTAuthentication().authenticate(request)
-    email = user.email
-    try:
-        projects = Projects.objects.filter(user__email=email)
-        serializer = ProjectsSerializer(projects, many=True)
-        return Response(serializer.data)
-    except Projects.DoesNotExist:
-        return Response({'message': 'No projects found. Check user.'}, status=status.HTTP_404_NOT_FOUND)
+    def get(self, request):
+        user = request.user
+        projects = Projects.objects.filter(user__email=user)
+        serializer = self.serializer_class(projects, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def getProject(request, project_id):
-    user, _ = JWTAuthentication().authenticate(request)
-    email = user.email
-    try:
-        project = Projects.objects.get(id=project_id,user__email=email)
-        serializer = ProjectsSerializer(project)
-        return Response(serializer.data)
-    except Projects.DoesNotExist:
-        return Response({'message': 'No project found.'}, status=status.HTTP_404_NOT_FOUND)
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
     
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def createProject(request):
-    serializer = ProjectsSerializer(data=request.data)
-    serializer.is_valid(raise_exception=True)
-    serializer.save()
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
+class ProjectView(APIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ProjectsSerializer
 
+    def get_project(self, project_id, user):
+        project = Projects.objects.get(id=project_id, user__email=user)
+        return project
 
-# @permission_classes([IsAuthenticated])
-# class ProjectsView(viewsets.ModelViewSet):
-#     serializer_class = ProjectsSerializer
-
-#     def list(self, request):
-#         print(self.request.headers.authorization)
-#         return Response('Ok')
+    def get(self, request, project_id):
+        user = request.user
+        try:
+            project = self.get_project(project_id, user)
+            serializer = self.serializer_class(project)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Projects.DoesNotExist:
+            return Response({'message': "Project doesn't exist or you dont have the permissions to get it"}, status=status.HTTP_401_UNAUTHORIZED)
+    
+    def put(self, request, project_id):
+        user = request.user
+        project = self.get_project(project_id, user)
+        serializer = self.serializer_class(project, data=request.data)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def delete(self, request, project_id):
+        user = request.user
+        project = self.get_project(project_id, user)
+        project.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

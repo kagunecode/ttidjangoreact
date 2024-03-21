@@ -5,14 +5,14 @@ export function ProjectForm({
   setProjectModal,
 }) {
   return (
-    <div className="bg-white p-4 w-1/4 h-1/3 rounded border drop-shadow-sm justify-start flex flex-col">
+    <div className="bg-white p-6 w-1/4 h-1/3 rounded border drop-shadow-sm justify-start flex flex-col">
       <div>
-        <h1 className="text-3xl font-semibold mb-1">Add project</h1>
+        <h1 className="text-3xl font-semibold mb-2">Add project</h1>
         <hr />
       </div>
       <form
         onSubmit={handleSubmit(addProject)}
-        className="w-full flex flex-col justify-around h-full"
+        className="w-full flex flex-col justify-around h-full mt-2"
       >
         <input
           {...register("name")}

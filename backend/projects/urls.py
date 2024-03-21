@@ -1,13 +1,7 @@
-from django.urls import path, include
-from rest_framework import routers
-from projects import views
-
-# router = routers.DefaultRouter()
-# router.register(r'projects', views.ProjectsView, 'projects')
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    # path('', include(router.urls)),
-    path('projects/', views.getProjects),
-    path('projects/<int:project_id>/', views.getProject),
-    path('projects/create', views.createProject)
+    path('projects/', views.ProjectsView.as_view()),
+    path('projects/<int:project_id>/', views.ProjectView.as_view()),
 ]

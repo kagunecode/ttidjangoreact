@@ -6,7 +6,7 @@ export async function addProject(
   setRefreshProjects,
   tokenData
 ) {
-  await instance.post("projects/create", {
+  await instance.post("projects/", {
     name: formData.name,
     colour: formData.colour,
     favourite: formData.favourite,

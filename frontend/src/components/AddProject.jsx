@@ -19,7 +19,7 @@ export function AddProject() {
   return (
     <section
       style={{ display: projectModal ? "flex" : "none" }}
-      className="h-full w-full items-center justify-center absolute bg-black/10 backdrop-blur"
+      className="h-full w-full items-center justify-center absolute bg-black/40 backdrop-blur-sm"
     >
       <ProjectForm
         register={register}

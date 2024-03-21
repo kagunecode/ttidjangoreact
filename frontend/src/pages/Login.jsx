@@ -1,31 +1,11 @@
-import axios from "axios";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
-import { useStore } from "../store";
+import { Link } from "react-router-dom";
 import { IconTodoers } from "../icons/IconTodoers";
+import { login } from "../utils/login";
 
 export function Login() {
   const { register, handleSubmit } = useForm();
-  const [setTokenData, setLocalToken] = useStore((state) => [
-    state.setTokenData,
-    state.setLocalToken,
-  ]);
-  const navigate = useNavigate();
 
-  const onSubmit = async (formData) => {
-    const response = await axios.post("http://127.0.0.1:8000/api/token", {
-      email: formData.email,
-      password: formData.password,
-    });
-    if (response.status === 200) {
-      let data = jwtDecode(response.data.access);
-      setTokenData(data);
-      setLocalToken(response.data);
-      localStorage.setItem("authTokens", JSON.stringify(response.data));
-      navigate("/app");
-    }
-  };
   return (
     <section className="h-full w-full flex flex-col gap-10 items-center justify-center">
       <Link to="/" className="flex gap-4 items-center">
@@ -35,7 +15,7 @@ export function Login() {
       <h2 className="text-3xl text-gray-600">Login to your account</h2>
       <form
         className="flex w-[30%] flex-col gap-5"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(login)}
       >
         <input
           className="border p-2 rounded"

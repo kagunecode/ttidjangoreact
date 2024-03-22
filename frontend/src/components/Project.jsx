@@ -12,7 +12,7 @@ export function Project() {
     })();
   }, [id]);
   return (
-    <div className="flex flex-col h-full items-center">
+    <div className="flex flex-col h-full p-8 items-center">
       <h1 className="text-7xl font-semibold">{projectData?.name}</h1>
     </div>
   );

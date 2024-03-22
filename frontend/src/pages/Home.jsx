@@ -9,7 +9,6 @@ export function Home() {
     <div className="h-full relative flex">
       <Sidebar />
       <div className="w-full flex flex-col">
-        <Navbar />
         <Routes>
           <Route path="project/:id" Component={Project} />
         </Routes>

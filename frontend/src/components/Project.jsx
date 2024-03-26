@@ -14,7 +14,7 @@ export function Project() {
     })();
   }, [id]);
   return (
-    <div className="flex flex-col h-full p-8 items-center">
+    <div className="flex flex-col h-full p-4 items-center">
       <Toolbar />
       <h1 className="text-7xl font-semibold">{projectData?.name}</h1>
     </div>

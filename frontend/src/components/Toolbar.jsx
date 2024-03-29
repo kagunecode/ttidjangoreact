@@ -15,7 +15,6 @@ export function Toolbar() {
     const response = await instance.delete(`projects/${id}/`);
     setRefreshProjects(true);
     navigate("/app");
-    console.log(response);
   };
 
   return (

@@ -17,6 +17,8 @@ export function Toolbar() {
     navigate("/app");
   };
 
+  // TODO: Add animations and status for showing card
+
   return (
     <nav className="flex justify-end items-center w-full gap-2">
       <div>

@@ -5,8 +5,10 @@ import { instance } from "../utils/axiosInstance";
 import { useStore } from "../store";
 import { IconTrash } from "../icons/IconTrash";
 import { IconPen } from "../icons/IconPen";
+import { useState } from "react";
 
 export function Toolbar() {
+  const [toggleMenu, setToggleMenu] = useState(false);
   const { id } = useParams();
   const setRefreshProjects = useStore((state) => state.setRefreshProjects);
   const navigate = useNavigate();
@@ -25,8 +27,16 @@ export function Toolbar() {
         <IconPlus />
       </div>
       <div className="relative">
-        <IconOptions />
-        <div className="absolute flex flex-col text-[.9rem] w-[200px] items-start right-0 p-4 mt-2 rounded border bg-zinc-50">
+        <div
+          onClick={() => setToggleMenu(!toggleMenu)}
+          className="hover:bg-zinc-200 rounded p-1 cursor-pointer"
+        >
+          <IconOptions />
+        </div>
+        <div
+          style={{ display: toggleMenu ? "flex" : "none" }}
+          className="absolute flex flex-col text-[.9rem] w-[200px] items-start right-0 p-4 mt-2 rounded border bg-zinc-50"
+        >
           <button className="gap-1 flex items-center hover:bg-zinc-200 duration-150 w-full rounded py-1 px-2">
             <span>
               <IconPen className="w-5 h-5" />

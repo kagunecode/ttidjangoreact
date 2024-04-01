@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { Toolbar } from "./Toolbar";
+import { Tasks } from "./Tasks";
 
 export function Project() {
   const [projectData, setProjectData] = useState(null);
@@ -17,6 +18,7 @@ export function Project() {
     <div className="flex flex-col h-full p-4 items-center">
       <Toolbar />
       <h1 className="text-7xl font-semibold">{projectData?.name}</h1>
+      <Tasks />
     </div>
   );
 }

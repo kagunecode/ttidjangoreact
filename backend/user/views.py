@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from .serializers import UserSerializer
 
 # TODO / Make models for user
+# TODO / Make stuff
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod

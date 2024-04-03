@@ -15,7 +15,7 @@ export function Tasks() {
   }, [id]);
 
   return (
-    <div className="w-full flex flex-col gap-2">
+    <div className="w-full flex flex-col gap-2 px-40">
       {tasks && tasks.map((task) => <TaskCard key={task.id} task={task} />)}
     </div>
   );

@@ -17,7 +17,7 @@ export function Project() {
   return (
     <div className="flex flex-col h-full p-4 items-center">
       <Toolbar />
-      <h1 className="text-7xl font-semibold">{projectData?.name}</h1>
+      <h1 className="text-7xl font-semibold mb-8">{projectData?.name}</h1>
       <Tasks />
     </div>
   );

@@ -12,6 +12,7 @@ import { IconPen } from "../icons/IconPen";
 
 export function Toolbar() {
   const [toggleMenu, setToggleMenu] = useState(false);
+  const [toggleAddCard, setToggleAddCard] = useState(false);
   const { register, handleSubmit, reset } = useForm();
   const { id } = useParams();
   const setRefreshProjects = useStore((state) => state.setRefreshProjects);
@@ -35,7 +36,10 @@ export function Toolbar() {
 
   return (
     <nav className="flex justify-end items-center w-full gap-2">
-      <div>
+      <div
+        onClick={() => setToggleAddCard(!toggleAddCard)}
+        className="hover:bg-zinc-200 rounded p-1 cursor-pointer"
+      >
         <IconPlus />
       </div>
       <div className="relative">
@@ -65,7 +69,10 @@ export function Toolbar() {
             Delete
           </button>
         </div>
-        <div className="absolute flex flex-col text-[.9rem] w-[500px] items-start right-0 p-4 mt-2 rounded border bg-zinc-50">
+        <div
+          style={{ display: toggleAddCard ? "flex" : "none" }}
+          className="absolute flex flex-col text-[.9rem] w-[500px] items-start right-0 p-4 mt-2 rounded border bg-zinc-50"
+        >
           <TaskForm />
         </div>
       </div>

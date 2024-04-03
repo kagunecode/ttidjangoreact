@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { instance } from "../utils/axiosInstance";
 import { useParams } from "react-router-dom";
 
+import { TaskCard } from "./TaskCard";
+
 export function Tasks() {
   const [tasks, setTasks] = useState(null);
   const { id } = useParams();
@@ -13,6 +15,8 @@ export function Tasks() {
   }, [id]);
 
   return (
-    <>{tasks && tasks.map((task) => <h1 key={task.id}>{task.name}</h1>)}</>
+    <div className="w-full">
+      {tasks && tasks.map((task) => <TaskCard key={task.id} task={task} />)}
+    </div>
   );
 }

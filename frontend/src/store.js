@@ -11,10 +11,12 @@ export const useStore = create((set) => ({
     : null,
   projectModal: false,
   refreshProjects: true,
+  refreshTasks: true,
   setTokenData: (data) => set(() => ({ tokenData: data })),
   setLocalToken: (data) => set(() => ({ localToken: data })),
   setUserData: (data) => set(() => ({ userData: data })),
   setProjectModal: () =>
     set((state) => ({ projectModal: !state.projectModal })),
   setRefreshProjects: (value) => set(() => ({ refreshProjects: value })),
+  setRefreshTasks: (value) => set(() => ({ refreshTasks: value })),
 }));

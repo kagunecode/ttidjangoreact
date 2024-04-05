@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useStore } from "../store";
-import { useForm } from "react-hook-form";
 
 import { TaskForm } from "./TaskForm";
 import { IconOptions } from "../icons/IconOptions";
@@ -13,7 +12,6 @@ import { IconPen } from "../icons/IconPen";
 export function Toolbar() {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [toggleAddCard, setToggleAddCard] = useState(false);
-  const { register, handleSubmit, reset } = useForm();
   const { id } = useParams();
   const setRefreshProjects = useStore((state) => state.setRefreshProjects);
   const navigate = useNavigate();
@@ -22,14 +20,6 @@ export function Toolbar() {
     const response = await instance.delete(`projects/${id}/`);
     setRefreshProjects(true);
     navigate("/app");
-  };
-
-  const addTask = async () => {
-    const response = await instance.post(`tasks/`, {});
-  };
-
-  const getTasks = async () => {
-    const response = await instance.get(`tasks/${id}/`);
   };
 
   // TODO: Add animations and status for showing card

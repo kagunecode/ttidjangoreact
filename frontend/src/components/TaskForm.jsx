@@ -5,7 +5,10 @@ import { useStore } from "../store";
 
 export function TaskForm() {
   const { id } = useParams();
-  const tokenData = useStore((status) => status.tokenData);
+  const [tokenData, setRefreshTasks] = useStore((status) => [
+    status.tokenData,
+    status.setRefreshTasks,
+  ]);
   const { handleSubmit, register } = useForm();
   const addTask = async (formData) => {
     const response = await instance.post("tasks/", {
@@ -15,6 +18,7 @@ export function TaskForm() {
       user: tokenData.user_id,
       project: id,
     });
+    setRefreshTasks(true);
   };
   return (
     <div className="bg-white gap-3 p-6 w-full h-full rounded border drop-shadow-sm justify-start flex flex-col">
